@@ -72,8 +72,12 @@ export class CanvasManager {
     const canvasWidth  = Level.COLS * this.currentTileSize;
     const canvasHeight = Level.ROWS * this.currentTileSize;
 
-    this.canvas.width  = canvasWidth;
-    this.canvas.height = canvasHeight;
+    if (this.canvas.width !== canvasWidth) {
+      this.canvas.width = canvasWidth;
+    }
+    if (this.canvas.height !== canvasHeight) {
+      this.canvas.height = canvasHeight;
+    }
 
     const hud = document.getElementById('hud');
     if (hud) {

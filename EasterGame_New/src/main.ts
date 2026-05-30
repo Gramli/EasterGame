@@ -56,10 +56,11 @@ function redraw(): void {
 
 if (DeviceDetection.shouldShowTouchControls()) {
   new TouchControls(game, startGame, redraw);
+} else {
+  new Input(game, startGame, redraw);
 }
 
 canvasManager.onResize(() => redraw());
-window.setInterval(redraw, 1000);
-new Input(game, startGame, redraw);
+window.setInterval(redraw, 1000); 
 redraw();
 
