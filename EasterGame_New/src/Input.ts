@@ -1,88 +1,41 @@
 import { Game } from './Game';
-import { Direction } from './GameObjects/Player';
-import { toggleMusic, startMusicOnFirstPlay } from './Music';
+import { InputAction, applyAction } from './InputAction';
 
 export class Input {
   constructor(
-    private readonly game:    Game,
+    private readonly game: Game,
+    private readonly onStartGame: () => void,
     private readonly onRedraw: () => void,
   ) {
     window.addEventListener('keydown', (e) => this.handleKey(e));
   }
 
   private handleKey(e: KeyboardEvent): void {
-    const { game, onRedraw } = this;
-
-    if (game.phase === 'menu') {
-      if (e.key === 'Enter' || e.key === ' ') {
-        e.preventDefault();
-        game.startLevel(0);
-        startMusicOnFirstPlay();
-        onRedraw();
-      }
-      return;
+    const action = this.keyToAction(e);
+    if (action !== null) {
+      e.preventDefault();
+      applyAction(action, this.game, this.onStartGame, this.onRedraw);
     }
+  }
 
-
-    if (game.phase === 'won') {
-      if (e.key === 'Enter' && game.hasNextLevel) {
-        game.nextLevel();
-        onRedraw();
-      } else if (e.key === 'r' || e.key === 'R') {
-        game.restartLevel();
-        onRedraw();
-      }
-      return;
-    }
-
-
-    if (game.phase === 'lost') {
-      if (e.key === 'r' || e.key === 'R') {
-        game.restartLevel();
-        onRedraw();
-      }
-      return;
-    }
-
-
+  private keyToAction(e: KeyboardEvent): InputAction | null {
+    const { phase } = this.game;
     switch (e.key) {
-      case 'ArrowRight':
-        e.preventDefault();
-        game.setDirection(Direction.Right);
-        game.handleMove(1, 0);
-        break;
-      case 'ArrowLeft':
-        e.preventDefault();
-        game.setDirection(Direction.Left);
-        game.handleMove(-1, 0);
-        break;
-      case 'ArrowUp':
-        e.preventDefault();
-        game.setDirection(Direction.Up);
-        game.handleMove(0, -1);
-        break;
-      case 'ArrowDown':
-        e.preventDefault();
-        game.setDirection(Direction.Down);
-        game.handleMove(0, 1);
-        break;
+      case 'ArrowUp':    return 'MoveUp';
+      case 'ArrowDown':  return 'MoveDown';
+      case 'ArrowLeft':  return 'MoveLeft';
+      case 'ArrowRight': return 'MoveRight';
       case ' ':
-        e.preventDefault();
-        game.handleJump();
-        break;
-      case 'r':
-      case 'R':
-        game.restartLevel();
-        break;
-      case 's':
-      case 'S':
-        toggleMusic();
-        return;
-      default:
-        return;
+        if (phase === 'menu')    return 'StartOrRestart';
+        if (phase === 'playing') return 'BigJump';
+        return null;
+      case 'Enter':
+        if (phase === 'menu') return 'StartOrRestart';
+        if (phase === 'won')  return 'NextLevel';
+        return null;
+      case 'r': case 'R': return 'StartOrRestart';
+      case 's': case 'S': return 'ToggleMusic';
+      default:            return null;
     }
-
-    onRedraw();
   }
 }
-

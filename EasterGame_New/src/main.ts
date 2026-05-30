@@ -1,16 +1,16 @@
 import { Game }                               from './Game';
 import { Renderer }                          from './Renderer';
 import { Input }                             from './Input';
-import { Level }                             from './Levels/Level';
+import { CanvasManager }                     from './CanvasManager';
+import { TouchControls }                     from './TouchControls';
+import { DeviceDetection }                   from './DeviceDetection';
 import { loadImages }                        from './Assets';
 import { startMusicOnFirstPlay, toggleMusic } from './Music';
 export { startMusicOnFirstPlay, toggleMusic };
 
-const canvas  = document.getElementById('game') as HTMLCanvasElement;
-canvas.width  = Level.COLS * Level.TILE_SIZE;
-canvas.height = Level.ROWS * Level.TILE_SIZE;
-
-const ctx = canvas.getContext('2d')!;
+const canvas        = document.getElementById('game') as HTMLCanvasElement;
+const canvasManager = new CanvasManager('game');
+const ctx           = canvas.getContext('2d')!;
 
 ctx.fillStyle    = '#1a3a0e';
 ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -30,6 +30,12 @@ const hudJumps = document.getElementById('hud-jumps')!;
 const hudMoves = document.getElementById('hud-moves')!;
 const hudTime  = document.getElementById('hud-time')!;
 
+function startGame(): void {
+  game.startLevel(0);
+  startMusicOnFirstPlay();
+  redraw();
+}
+
 function updateHUD(): void {
   if (game.phase !== 'playing' && game.phase !== 'won' && game.phase !== 'lost') {
     hudLevel.textContent = hudEggs.textContent = hudJumps.textContent =
@@ -47,11 +53,16 @@ function updateHUD(): void {
 }
 
 function redraw(): void {
-  renderer.render(game);
+  renderer.render(game, canvasManager.getTileSize());
   updateHUD();
 }
 
+if (DeviceDetection.shouldShowTouchControls()) {
+  new TouchControls(game, startGame, redraw);
+}
+
+canvasManager.onResize(() => redraw());
 window.setInterval(redraw, 1000);
-new Input(game, redraw);
+new Input(game, startGame, redraw);
 redraw();
 

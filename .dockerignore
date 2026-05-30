@@ -1,0 +1,13 @@
+# C# WinForms game — not part of the web build
+EasterGame/
+
+# Node / build artefacts
+EasterGame_New/node_modules/
+EasterGame_New/dist/
+
+# Git and editor
+.git/
+.github/
+.vscode/
+*.md
+LICENSE.md
