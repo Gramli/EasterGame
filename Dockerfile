@@ -13,7 +13,9 @@ RUN npm run build
 # ── serve stage ───────────────────────────────────────────────────────────────
 FROM nginx:1.27-alpine
 
-COPY nginx.conf /etc/nginx/conf.d/default.conf
+# Cloud Run injects PORT. The nginx image renders templates with envsubst at startup.
+ENV PORT=8080
+COPY nginx.conf /etc/nginx/templates/default.conf.template
 # dist/ includes everything from public/ (assets, svgs) plus compiled JS/CSS
 COPY --from=build /app/dist /usr/share/nginx/html
 
