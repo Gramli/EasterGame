@@ -52,7 +52,6 @@ TestResults/
 # TypeScript / Node.js (EasterGame_New)
 ## Dependencies
 node_modules/
-package-lock.json
 yarn.lock
 pnpm-lock.yaml
 
