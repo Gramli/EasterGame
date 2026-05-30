@@ -12,15 +12,11 @@ export class DeviceDetection {
     return this.isTouchDeviceCache;
   }
 
-  static isSmallScreen(): boolean {
+  private static isSmallScreen(): boolean {
     return window.innerWidth < 768;
   }
 
   static shouldShowTouchControls(): boolean {
     return this.isTouchDevice() || this.isSmallScreen();
-  }
-
-  static resetCache(): void {
-    this.isTouchDeviceCache = null;
   }
 }

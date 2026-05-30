@@ -1,6 +1,6 @@
-import { Game } from "./Game";
-import { CellType, Level } from "./Levels/Level";
-import { GameImages } from "./Assets";
+import { Game } from "../Game";
+import { CellType, Level } from "../Levels/Level";
+import { GameImages } from "../Assets";
 import { DeviceDetection } from "./DeviceDetection";
 
 export class Renderer {
@@ -91,25 +91,20 @@ export class Renderer {
 
     const isTouchDevice = DeviceDetection.isTouchDevice();
 
-    const spriteY = h / 2 - (isTouchDevice ? 150 : 190);
-    const spriteSize = tileSize * 1.5;
-    const sprites = [
-      images.vajickoModre,
-      images.vajickoCervene,
-      images.vajickoOranzove,
-      images.mrkev,
-      images.zajicDoprava,
-    ];
-    const totalW = sprites.length * spriteSize + (sprites.length - 1) * 8;
-    sprites.forEach((img, i) => {
-      ctx.drawImage(
-        img,
-        w / 2 - totalW / 2 + i * (spriteSize + 8),
-        spriteY,
-        spriteSize,
-        spriteSize,
-      );
-    });
+    this.drawSprites(isTouchDevice, tileSize);
+    this.drawGameTitle();
+
+    if (isTouchDevice) {
+      this.drawTouchDevicesControls();
+    } else {
+      this.drawLargeDevicesControls();
+    }
+  }
+
+  private drawGameTitle(): void {
+    const { ctx } = this;
+    const w = ctx.canvas.width;
+    const h = ctx.canvas.height;
 
     ctx.fillStyle = "#f1c40f";
     ctx.font = "bold 38px system-ui, sans-serif";
@@ -124,12 +119,33 @@ export class Renderer {
       w / 2,
       h / 2 - 52,
     );
+  }
 
-    if (isTouchDevice) {
-      this.drawTouchDevicesControls();
-    } else {
-      this.drawLargeDevicesControls();
-    }
+  private drawSprites(isTouchDevice: boolean, tileSize: number): void {
+    const { ctx, images } = this;
+    const w = ctx.canvas.width;
+    const h = ctx.canvas.height;
+
+    const spriteY = h / 2 - (isTouchDevice ? 150 : 190);
+    const spriteSize = tileSize * 1.5;
+    const sprites = [
+      images.vajickoModre,
+      images.vajickoCervene,
+      images.vajickoOranzove,
+      images.mrkev,
+      images.zajicDoprava,
+    ];
+
+    const totalW = sprites.length * spriteSize + (sprites.length - 1) * 8;
+    sprites.forEach((img, i) => {
+      ctx.drawImage(
+        img,
+        w / 2 - totalW / 2 + i * (spriteSize + 8),
+        spriteY,
+        spriteSize,
+        spriteSize,
+      );
+    });
   }
 
   private drawTouchDevicesControls() {
@@ -142,11 +158,11 @@ export class Renderer {
 
     ctx.font = "16px system-ui, sans-serif";
     ctx.fillStyle = "#d4f7b0";
-    ctx.fillText("Use the on-screen controls to play", w / 2, h / 2 + 16);
-    ctx.fillText("S — Toggle music", w / 2, h / 2 + 44);
+    ctx.fillText("Use the on-screen controls to play", w / 2, h / 2);
+    ctx.fillText("S — Toggle music", w / 2, h / 2 + 22);
 
     ctx.font = "14px system-ui, sans-serif";
-    ctx.fillText("Tap  R  to start", w / 2, h / 2 + 140);
+    ctx.fillText("Tap or R to start", w / 2, h / 2 + 140);
   }
 
   private drawLargeDevicesControls() {
@@ -167,11 +183,11 @@ export class Renderer {
       ctx.font = "14px monospace";
       ctx.fillStyle = "#f1c40f";
       ctx.textAlign = "right";
-      ctx.fillText(key, w / 2 - 12, h / 2 + 2 + i * 24);
+      ctx.fillText(key, w / 2 - 60, h / 2 + 2 + i * 24);
       ctx.font = "14px system-ui, sans-serif";
       ctx.fillStyle = "#fff";
       ctx.textAlign = "left";
-      ctx.fillText(desc, w / 2 + 12, h / 2 + 5 + i * 24);
+      ctx.fillText(desc, w / 2 -10 , h / 2 +2  + i * 24);
     });
 
     ctx.font = "14px system-ui, sans-serif";

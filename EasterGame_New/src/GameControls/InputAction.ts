@@ -1,6 +1,6 @@
-import { Game } from './Game';
-import { Direction } from './GameObjects/Player';
-import { toggleMusic } from './Music';
+import { Game } from '../Game';
+import { Direction } from '../GameObjects/Player';
+import { toggleMusic } from '../Music';
 
 export type InputAction =
   | 'MoveUp'
@@ -10,7 +10,8 @@ export type InputAction =
   | 'BigJump'
   | 'StartOrRestart'
   | 'NextLevel'
-  | 'ToggleMusic';
+  | 'ToggleMusic'
+  | 'StartOrNextLevel';
 
 export function applyAction(
   action: InputAction,
@@ -25,7 +26,7 @@ export function applyAction(
 
   switch (game.phase) {
     case 'menu':
-      if (action === 'StartOrRestart') onStartGame();
+      if (action === 'StartOrRestart' || action === 'StartOrNextLevel') onStartGame();
       return;
 
     case 'won':
@@ -34,6 +35,13 @@ export function applyAction(
         onRedraw();
       } else if (action === 'StartOrRestart') {
         game.restartLevel();
+        onRedraw();
+      } else if (action === 'StartOrNextLevel') {
+        if (game.hasNextLevel) {
+          game.nextLevel();
+        } else {
+          game.restartLevel();
+        }
         onRedraw();
       }
       return;

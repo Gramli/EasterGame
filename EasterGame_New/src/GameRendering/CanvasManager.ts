@@ -1,4 +1,5 @@
-import { Level } from './Levels/Level';
+import { Level } from '../Levels/Level';
+import { DeviceDetection } from './DeviceDetection';
 
 export class CanvasManager {
   private canvas: HTMLCanvasElement;
@@ -6,7 +7,8 @@ export class CanvasManager {
   private resizeObserver: ResizeObserver | null = null;
   private readonly MIN_TILE_SIZE = 24;
   private readonly MAX_TILE_SIZE = 48;
-  private readonly CONTROL_HEIGHT = 80;
+  private readonly CONTROL_WIDTH  = 220;
+  private readonly CONTROL_HEIGHT = 220;
   private onResizeCallback: (() => void) | null = null;
 
   constructor(canvasElementId: string) {
@@ -29,50 +31,57 @@ export class CanvasManager {
 
   recalculateSize(): void {
     const newTileSize = this.calculateOptimalTileSize();
-    if (newTileSize !== this.currentTileSize) {
-      this.currentTileSize = newTileSize;
-      this.applyCanvasSize();
-      if (this.onResizeCallback) {
-        this.onResizeCallback();
-      }
+    const sizeChanged = newTileSize !== this.currentTileSize;
+    this.currentTileSize = newTileSize;
+    this.applyCanvasSize();
+    if (sizeChanged && this.onResizeCallback) {
+      this.onResizeCallback();
     }
   }
 
-  private calculateOptimalTileSize(): number {
-    const isMobile = this.isMobileScreen();
-    const availableWidth = window.innerWidth;
-    const availableHeight = window.innerHeight;
-    const effectiveHeight = isMobile
-      ? availableHeight - this.CONTROL_HEIGHT - 150
-      : availableHeight - 150;
-
-    const tileSizeFromWidth  = Math.floor((availableWidth  - 20) / Level.COLS);
-    const tileSizeFromHeight = Math.floor(effectiveHeight        / Level.ROWS);
-    const tileSize = Math.max(
-      this.MIN_TILE_SIZE,
-      Math.min(this.MAX_TILE_SIZE, Math.min(tileSizeFromWidth, tileSizeFromHeight)),
-    );
-
-    return tileSize;
+  private isLandscapeTouch(): boolean {
+    return DeviceDetection.shouldShowTouchControls() && window.innerWidth > window.innerHeight;
   }
 
-  private isMobileScreen(): boolean {
-    return window.innerWidth < 768;
+  private calculateOptimalTileSize(): number {
+    const vw = window.innerWidth;
+    const vh = window.innerHeight;
+    const HUD_H   = 30;
+    const PAD     = 16;
+
+    let availW: number;
+    let availH: number;
+
+    if (this.isLandscapeTouch()) {
+      availW = vw - this.CONTROL_WIDTH - PAD;
+      availH = vh - HUD_H - PAD;
+    } else if (DeviceDetection.shouldShowTouchControls()) {
+      availW = vw - PAD;
+      availH = vh - this.CONTROL_HEIGHT - HUD_H - PAD;
+    } else {
+      availW = vw - PAD;
+      availH = vh - HUD_H - PAD;
+    }
+
+    const fromW = Math.floor(availW / Level.COLS);
+    const fromH = Math.floor(availH / Level.ROWS);
+    return Math.max(this.MIN_TILE_SIZE, Math.min(this.MAX_TILE_SIZE, Math.min(fromW, fromH)));
   }
 
   private applyCanvasSize(): void {
-    const canvasWidth = Level.COLS * this.currentTileSize;
+    const canvasWidth  = Level.COLS * this.currentTileSize;
     const canvasHeight = Level.ROWS * this.currentTileSize;
 
-    this.canvas.width = canvasWidth;
+    this.canvas.width  = canvasWidth;
     this.canvas.height = canvasHeight;
 
     const hud = document.getElementById('hud');
-    if (hud) hud.style.width = this.isMobileScreen() ? '100%' : `${canvasWidth}px`;
+    if (hud) {
+      hud.style.width = DeviceDetection.shouldShowTouchControls() ? '' : `${canvasWidth}px`;
+    }
 
-    const isMobile = this.isMobileScreen();
-    this.canvas.style.maxWidth  = isMobile ? '100vw' : 'none';
-    this.canvas.style.maxHeight = isMobile ? '100vh' : 'none';
+    this.canvas.style.maxWidth  = '100%';
+    this.canvas.style.maxHeight = this.isLandscapeTouch() ? 'calc(100dvh - 44px)' : '';
   }
 
   private setupResizeListener(): void {
@@ -80,7 +89,6 @@ export class CanvasManager {
       this.recalculateSize();
     });
 
-    // Handle orientation change (mobile)
     window.addEventListener('orientationchange', () => {
       setTimeout(() => this.recalculateSize(), 100);
     });

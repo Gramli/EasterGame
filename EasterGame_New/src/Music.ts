@@ -3,13 +3,6 @@ music.loop  = true;
 
 let playing = false;
 
-export function startMusicOnFirstPlay(): void {
-  if (!playing) {
-    music.play().catch(() => {});
-    playing = true;
-  }
-}
-
 export function toggleMusic(): void {
   if (playing) {
     music.pause();

@@ -1,12 +1,10 @@
 import { Game }                               from './Game';
-import { Renderer }                          from './Renderer';
-import { Input }                             from './Input';
-import { CanvasManager }                     from './CanvasManager';
-import { TouchControls }                     from './TouchControls';
-import { DeviceDetection }                   from './DeviceDetection';
+import { Renderer }                          from './GameRendering/Renderer';
+import { Input }                             from './GameControls/Input';
+import { CanvasManager }                     from './GameRendering/CanvasManager';
+import { TouchControls }                     from './GameControls/TouchControls';
+import { DeviceDetection }                   from './GameRendering/DeviceDetection';
 import { loadImages }                        from './Assets';
-import { startMusicOnFirstPlay, toggleMusic } from './Music';
-export { startMusicOnFirstPlay, toggleMusic };
 
 const canvas        = document.getElementById('game') as HTMLCanvasElement;
 const canvasManager = new CanvasManager('game');
@@ -32,7 +30,6 @@ const hudTime  = document.getElementById('hud-time')!;
 
 function startGame(): void {
   game.startLevel(0);
-  startMusicOnFirstPlay();
   redraw();
 }
 

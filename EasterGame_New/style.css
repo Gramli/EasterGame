@@ -8,27 +8,30 @@ body {
   background: #1a3a0e;
   display: flex;
   justify-content: center;
-  align-items: center;
-  min-height: 100vh;
+  align-items: flex-start;
+  min-height: 100dvh;
   font-family: system-ui, sans-serif;
   -webkit-user-select: none;
   user-select: none;
 }
 
 #app {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  display: grid;
+  grid-template-areas:
+    "hud"
+    "game"
+    "hint"
+    "controls";
+  justify-items: center;
+  align-content: start;
   gap: 6px;
-  width: 100%;
-  max-width: 100vw;
   padding: 8px;
-  position: relative;
-  z-index: 10;
+  width: 100%;
 }
 
-/* HUD bar above the canvas — mirrors the C# bottom status strip */
+/* HUD bar above the canvas */
 #hud {
+  grid-area: hud;
   display: flex;
   gap: 24px;
   color: #d4f7b0;
@@ -36,7 +39,7 @@ body {
   font-weight: 600;
   height: 26px;
   align-items: center;
-  width: 100%;
+  max-width: 100%;
   padding: 0 6px;
 }
 
@@ -46,32 +49,29 @@ body {
 }
 
 canvas {
+  grid-area: game;
   display: block;
   border: 3px solid #4a7a30;
   border-radius: 3px;
-  /* Canvas size is set in CanvasManager to be responsive */
   max-width: 100%;
-  max-height: 100%;
   position: relative;
   z-index: 20;
 }
 
 #controls-hint {
+  grid-area: hint;
   color: #7a9e6a;
   font-size: 12px;
-  margin-top: 2px;
   display: none;
 }
 
 /* ===== TOUCH CONTROLS ===== */
 
 #touch-controls {
+  grid-area: controls;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  width: 100%;
-  max-width: 280px;
-  margin: 8px auto 0;
+  align-items: flex-start;
   padding: 8px;
   position: relative;
   z-index: 25;
@@ -79,44 +79,97 @@ canvas {
 
 .touch-dpad {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-template-rows: repeat(3, 1fr);
+  grid-template-columns: repeat(3, 64px);
+  grid-template-rows: repeat(3, 64px);
   gap: 8px;
-  width: 100%;
 }
 
 .touch-btn {
-  width: 100%;
-  aspect-ratio: 1;
+  width: 64px;
+  height: 64px;
   border: 2px solid #4a7a30;
-  background: #2d5a1a;
+  background: rgba(45, 90, 26, 0.85);
   color: #d4f7b0;
-  font-size: 28px;
+  font-size: 26px;
   font-weight: bold;
-  border-radius: 8px;
+  border-radius: 10px;
   cursor: pointer;
   touch-action: manipulation;
   -webkit-user-select: none;
   user-select: none;
-  transition: background-color 0.1s ease;
-  min-height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.08s ease;
 }
 
 .touch-btn:active {
-  background: #3d7a2a;
+  background: rgba(80, 160, 50, 0.9);
   color: #f1c40f;
 }
 
-.touch-btn:hover {
-  background: #3d7a2a;
+/* ===== LANDSCAPE TOUCH: controls on the right ===== */
+
+@media (pointer: coarse) and (orientation: landscape) {
+  body {
+    align-items: center;
+    overflow: hidden;
+  }
+
+  #app {
+    grid-template-columns: 1fr 220px;
+    grid-template-rows: auto 1fr;
+    grid-template-areas:
+      "hud      controls"
+      "game     controls";
+    align-items: start;
+    height: 100dvh;
+    overflow: hidden;
+    padding: 6px 8px;
+    gap: 6px 8px;
+  }
+
+  #hud {
+    align-self: end;
+    gap: 12px;
+    font-size: 12px;
+    height: 24px;
+    padding: 0 4px;
+  }
+
+  canvas {
+    border-width: 2px;
+    justify-self: end;
+    align-self: start;
+    max-height: calc(100dvh - 44px);
+  }
+
+  #touch-controls {
+    align-self: center;
+    justify-self: center;
+    padding: 0;
+    margin: 0;
+  }
+
+  .touch-dpad {
+    grid-template-columns: repeat(3, 60px);
+    grid-template-rows: repeat(3, 60px);
+    gap: 8px;
+  }
+
+  .touch-btn {
+    width: 60px;
+    height: 60px;
+    font-size: 24px;
+    border-radius: 8px;
+  }
 }
 
-/* ===== RESPONSIVE DESIGN ===== */
+/* ===== PORTRAIT TOUCH: tighter spacing ===== */
 
-/* Small screens: show touch controls, hide keyboard hint */
-@media (max-width: 767px) {
+@media (pointer: coarse) and (orientation: portrait) {
   body {
-    min-height: 100dvh; /* Use dynamic viewport height for mobile */
+    align-items: flex-start;
   }
 
   #app {
@@ -125,15 +178,9 @@ canvas {
   }
 
   #hud {
-    width: 100%;
-    gap: 12px;
+    gap: 10px;
     font-size: 12px;
     height: 24px;
-    padding: 4px;
-  }
-
-  #controls-hint {
-    display: none;
   }
 
   canvas {
@@ -141,17 +188,15 @@ canvas {
   }
 }
 
-/* Medium screens and up: hide touch controls, show keyboard hint */
-@media (min-width: 768px) {
-  #hud {
-    width: 800px;
+/* ===== DESKTOP (mouse): center vertically, show keyboard hint ===== */
+
+@media (hover: hover) and (pointer: fine) {
+  body {
+    align-items: center;
   }
 
   #controls-hint {
     display: block;
   }
-
-
 }
-
 
