@@ -1,0 +1,11 @@
+<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+  <g stroke="#2c3e50" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+    <!-- Leaves -->
+    <path d="M 32 24 Q 24 10 20 6 C 24 6 28 10 30 18 Q 32 4 36 6 C 36 10 34 18 32 24" fill="#2ecc71" />
+    <!-- Body -->
+    <path d="M 24 24 L 40 24 L 32 58 Z" fill="#e67e22" />
+    <!-- Details -->
+    <line x1="28" y1="34" x2="34" y2="34" />
+    <line x1="30" y1="44" x2="36" y2="44" />
+  </g>
+</svg>

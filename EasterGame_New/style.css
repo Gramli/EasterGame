@@ -1,0 +1,52 @@
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: #1a3a0e;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  font-family: system-ui, sans-serif;
+}
+
+#app {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+/* HUD bar above the canvas — mirrors the C# bottom status strip */
+#hud {
+  display: flex;
+  gap: 24px;
+  color: #d4f7b0;
+  font-size: 14px;
+  font-weight: 600;
+  height: 26px;
+  align-items: center;
+  width: 800px;
+  padding: 0 6px;
+}
+
+#hud-level {
+  color: #f1c40f;
+  flex: 1;
+}
+
+canvas {
+  display: block;
+  border: 3px solid #4a7a30;
+  border-radius: 3px;
+  /* Canvas size is set in main.ts to exactly COLS*TILE × ROWS*TILE */
+}
+
+#controls-hint {
+  color: #7a9e6a;
+  font-size: 12px;
+  margin-top: 2px;
+}

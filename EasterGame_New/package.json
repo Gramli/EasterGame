@@ -1,0 +1,14 @@
+{
+  "name": "easter-game",
+  "version": "1.0.0",
+  "description": "Easter puzzle game — browser edition rebuilt from C# WinForms",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "typescript": "^5.4.5",
+    "vite": "^6.3.5"
+  }
+}

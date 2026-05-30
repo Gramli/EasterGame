@@ -1,0 +1,10 @@
+<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+  <g stroke="#2c3e50" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+    <!-- Water Block -->
+    <rect x="8" y="8" width="48" height="48" rx="8" fill="#3498db" />
+    <!-- Wave 1 -->
+    <path d="M 16 32 Q 24 24 32 32 T 48 32" fill="none" stroke="#ffffff" />
+    <!-- Wave 2 -->
+    <path d="M 24 44 Q 32 36 40 44" fill="none" stroke="#ffffff" />
+  </g>
+</svg>

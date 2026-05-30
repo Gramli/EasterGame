@@ -1,0 +1,203 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{630945D7-8A33-4EFF-85F7-E40183DAC7A3}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>EasterGame</RootNamespace>
+    <AssemblyName>EasterGame</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Class\HerniObjekt.cs" />
+    <Compile Include="Class\HerniObjekty\Hrac.cs" />
+    <Compile Include="Class\HerniObjekty\Mrkev.cs" />
+    <Compile Include="Class\HerniObjekty\Vajicko.cs" />
+    <Compile Include="Class\Level.cs" />
+    <Compile Include="Class\Levels\Level_1.cs" />
+    <Compile Include="Class\Levels\Level_2.cs" />
+    <Compile Include="Class\Levels\Level_3.cs" />
+    <Compile Include="Class\Levels\Level_4.cs" />
+    <Compile Include="Class\Levels\Level_5.cs" />
+    <Compile Include="Class\Levels\Level_6.cs" />
+    <Compile Include="Class\Levels\Level_7.cs" />
+    <Compile Include="Forms\HlavniOkno.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\HlavniOkno.Designer.cs">
+      <DependentUpon>HlavniOkno.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\MojeMenu.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\MojeMenu.Designer.cs">
+      <DependentUpon>MojeMenu.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\MujMessageBox.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\MujMessageBox.Designer.cs">
+      <DependentUpon>MujMessageBox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Forms\HlavniOkno.resx">
+      <DependentUpon>HlavniOkno.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\MojeMenu.resx">
+      <DependentUpon>MojeMenu.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\MujMessageBox.resx">
+      <DependentUpon>MujMessageBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\zajic_sedi_doleva.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\zajic_sedi_dolu.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\zajic_sedi_doprava.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\zajic_sedi_nahoru.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\zajic_skace_doleva.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\zajic_skace_dolu.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\zajic_skace_doprava.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\zajic_skace_nahoru.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\kamen_hnedy_1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\kamen_hnedy_2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\kamen_sedy_1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\kamen_sedy_2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\trava.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\mrtvePole.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\mrkev.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\egg.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\vajicko_cervene.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\vajicko_modre.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\vajicko_oranzove.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\teleport.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\dvere.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SplatterColored0027_S.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\spodniMenu.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SplatterColored0027_S1.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\zajic.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\pozadi.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Mellowtron.mp3" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Mellowtron.wav" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
