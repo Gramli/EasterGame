@@ -14,13 +14,7 @@ const canvas        = document.getElementById('game') as HTMLCanvasElement;
 const canvasManager = new CanvasManager('game');
 const ctx           = canvas.getContext('2d')!;
 
-ctx.fillStyle    = '#1a3a0e';
-ctx.fillRect(0, 0, canvas.width, canvas.height);
-ctx.fillStyle    = '#f1c40f';
-ctx.font         = 'bold 24px system-ui, sans-serif';
-ctx.textAlign    = 'center';
-ctx.textBaseline = 'middle';
-ctx.fillText('Loading…', canvas.width / 2, canvas.height / 2);
+drawBase();
 
 const images   = await loadImages();
 const game     = new Game();
@@ -35,6 +29,16 @@ const hudTime  = document.getElementById('hud-time')!;
 function startGame(): void {
   game.startLevel(0);
   redraw();
+}
+
+function drawBase(): void {
+  ctx.fillStyle    = '#1a3a0e';
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  ctx.fillStyle    = '#f1c40f';
+  ctx.font         = 'bold 24px system-ui, sans-serif';
+  ctx.textAlign    = 'center';
+  ctx.textBaseline = 'middle';
+  ctx.fillText('Loading…', canvas.width / 2, canvas.height / 2);
 }
 
 function updateHUD(): void {
