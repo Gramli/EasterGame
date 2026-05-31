@@ -6,6 +6,10 @@ import { TouchControls }                     from './GameControls/TouchControls'
 import { DeviceDetection }                   from './GameRendering/DeviceDetection';
 import { loadImages }                        from './Assets';
 
+if (window.self !== window.top) {
+  document.documentElement.classList.add('embedded');
+}
+
 const canvas        = document.getElementById('game') as HTMLCanvasElement;
 const canvasManager = new CanvasManager('game');
 const ctx           = canvas.getContext('2d')!;

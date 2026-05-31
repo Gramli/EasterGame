@@ -200,3 +200,25 @@ canvas {
   }
 }
 
+/* ===== EMBEDDED: fit within an iframe without affecting the standalone page ===== */
+
+.embedded body {
+  height: 100dvh;
+  overflow: hidden;
+}
+
+.embedded #app {
+  height: 100dvh;
+  overflow: hidden;
+}
+
+.embedded canvas {
+  width: auto;
+  height: auto;
+  max-height: calc(100dvh - 48px);
+}
+
+.embedded #controls-hint {
+  display: none;
+}
+
