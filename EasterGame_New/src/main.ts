@@ -6,7 +6,7 @@ import { TouchControls }                     from './GameControls/TouchControls'
 import { DeviceDetection }                   from './GameRendering/DeviceDetection';
 import { loadImages }                        from './Assets';
 
-if (window.self !== window.top) {
+if (DeviceDetection.isEmbedded()) {
   document.documentElement.classList.add('embedded');
 }
 
