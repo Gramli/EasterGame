@@ -1,4 +1,3 @@
-# ── build stage ──────────────────────────────────────────────────────────────
 FROM node:22-alpine AS build
 
 WORKDIR /app
@@ -6,17 +5,15 @@ WORKDIR /app
 COPY EasterGame_New/package*.json ./
 RUN npm ci
 
-# Copy source and all public assets (PNG, SVG, WAV)
 COPY EasterGame_New/ ./
 RUN npm run build
 
-# ── serve stage ───────────────────────────────────────────────────────────────
 FROM nginx:1.27-alpine
 
-# Cloud Run injects PORT. The nginx image renders templates with envsubst at startup.
+
 ENV PORT=8080
 COPY nginx.conf /etc/nginx/templates/default.conf.template
-# dist/ includes everything from public/ (assets, svgs) plus compiled JS/CSS
+
 COPY --from=build /app/dist /usr/share/nginx/html
 
 EXPOSE 8080
