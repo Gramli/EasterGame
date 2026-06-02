@@ -1,17 +1,24 @@
 let music: HTMLAudioElement | null = null;
-let playing = false;
 
-export function toggleMusic(): void {
+function getMusic(): HTMLAudioElement {
   if (!music) {
     music = new Audio('/assets/Mellowtron.mp3');
     music.loop = true;
   }
 
-  if (playing) {
-    music.pause();
-    playing = false;
-  } else {
-    playing = true;
-    music.play().catch(() => {});
+  return music;
+}
+
+export async function toggleMusic(): Promise<void> {
+  const audio = getMusic();
+
+  if (!audio.paused) {
+    audio.pause();
+    return;
+  }
+
+  try {
+    await audio.play();
+  } catch {
   }
 }
